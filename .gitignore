@@ -1,0 +1,22 @@
+# Node/Vue 前端依赖和构建产物
+equipment-management-fronted/node_modules/
+equipment-management-fronted/dist/
+
+# Spring Boot 后端编译产物
+equipment-management-system/target/
+
+# IDE 和系统文件
+*.iml
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+
+# 忽略敏感配置
+equipment-management-system/src/main/resources/application-dev*.yml
+
+# 临时文件
+*.tmp

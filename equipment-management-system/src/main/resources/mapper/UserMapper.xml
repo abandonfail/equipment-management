@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.equipmentmanagementsystem.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.equipmentmanagementsystem.pojo.entity.User">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userName" column="userName" jdbcType="VARCHAR"/>
+            <result property="userAccount" column="userAccount" jdbcType="VARCHAR"/>
+            <result property="userPassword" column="userPassword" jdbcType="VARCHAR"/>
+            <result property="avatarUrl" column="avatarUrl" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="TINYINT"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="userStatus" column="userStatus" jdbcType="INTEGER"/>
+            <result property="userRole" column="userRole" jdbcType="INTEGER"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,userName,userAccount,
+        userPassword,avatarUrl,gender,
+        phone,email,userStatus,
+        userRole,isDelete,createTime,
+        updateTime
+    </sql>
+    <update id="update">
+        update user
+        <set>
+            <if test="userName != null">userName = #{userName},</if>
+            <if test="userAccount != null">userAccount = #{userAccount},</if>
+            <if test="userPassword != null">userPassword = #{userPassword},</if>
+            <if test="avatarUrl != null">avatarUrl = #{avatarUrl},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="userStatus != null">userStatus = #{userStatus},</if>
+            <if test="userRole != null">userRole = #{userRole},</if>
+            <if test="isDelete != null">isDelete = #{isDelete},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="updateTime != null">updateTime = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="pageQuery" resultType="com.equipmentmanagementsystem.pojo.entity.User">
+        select * from user
+        <where>
+            <if test="userName != null and userName != ''">
+                and userName like concat('%',#{userName},'%')
+            </if>
+            <if test="userAccount != null and userAccount != ''">
+                and userAccount like concat('%',#{userAccount},'%')
+            </if>
+            <if test="userStatus != null and userStatus != ''">
+                and userStatus = #{userStatus}
+            </if>
+            <if test="userRole != null and userRole != ''">
+                and userRole = #{userRole}
+            </if>
+            and isDelete = 0
+        </where>
+        order by createTime
+    </select>
+    <select id="selectByRole" resultType="java.lang.Long">
+        select id from user
+        where userRole = #{maintainer}
+        AND isDelete = 0
+        AND userRole = 2
+    </select>
+</mapper>

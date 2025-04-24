@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.equipmentmanagementsystem.mapper.DeviceMapper">
+
+    <resultMap id="BaseResultMap" type="com.equipmentmanagementsystem.pojo.entity.Device">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="imageUrl" column="imageUrl" jdbcType="VARCHAR"/>
+            <result property="model" column="model" jdbcType="VARCHAR"/>
+            <result property="serialNumber" column="serialNumber" jdbcType="VARCHAR"/>
+            <result property="warrantyPeriod" column="warrantyPeriod" jdbcType="INTEGER"/>
+            <result property="categoryId" column="categoryId" jdbcType="BIGINT"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="maintainerId" column="maintainerId" jdbcType="BIGINT"/>
+            <result property="locationId" column="locationId" jdbcType="BIGINT"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="lastMaintenanceTime" column="lastMaintenanceTime" jdbcType="TIMESTAMP"/>
+            <result property="nextMaintenanceTime" column="nextMaintenanceTime" jdbcType="TIMESTAMP"/>
+            <result property="discardTime" column="discardTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,imageUrl,
+        model,serialNumber,warrantyPeriod,
+        categoryId,status,maintainerId,
+        locationId,description,lastMaintenanceTime,
+        nextMaintenanceTime,discardTime,isDelete,
+        createTime,updateTime
+    </sql>
+    <update id="update">
+        update device
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="imageUrl != null">imageUrl = #{imageUrl},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="serialNumber != null">serialNumber = #{serialNumber},</if>
+            <if test="warrantyPeriod != null">warrantyPeriod = #{warrantyPeriod},</if>
+            <if test="categoryId != null">categoryId = #{categoryId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="maintainerId != null">maintainerId = #{maintainerId},</if>
+            <if test="locationId != null">locationId = #{locationId},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="lastMaintenanceTime != null">lastMaintenanceTime = #{lastMaintenanceTime},</if>
+            <if test="nextMaintenanceTime != null">nextMaintenanceTime = #{nextMaintenanceTime},</if>
+            <if test="discardTime != null">discardTime = #{discardTime},</if>
+            <if test="isDelete != null">isDelete = #{isDelete},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="updateTime != null">updateTime = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="pageQuery" resultType="com.equipmentmanagementsystem.pojo.vo.DeviceVO">
+        SELECT
+        d.id,
+        d.name,
+        d.imageUrl,
+        d.model,
+        d.serialNumber,
+        d.warrantyPeriod,
+        d.status,
+        d.description,
+        d.lastMaintenanceTime,
+        d.nextMaintenanceTime,
+        d.discardTime,
+        d.createTime,
+        d.updateTime,
+        d.isDelete,
+
+        -- 联表字段
+        c.name AS categoryName,
+        u.userName AS maintainerName,
+        l.name AS locationName
+
+        FROM device d
+        LEFT JOIN category c ON d.categoryId = c.id AND c.isDelete = 0
+        LEFT JOIN user u ON d.maintainerId = u.id AND u.isDelete = 0
+        LEFT JOIN location l ON d.locationId = l.id AND l.isDelete = 0
+
+        <where>
+            <if test="name != null and name != ''">
+                AND d.name LIKE concat('%', #{name}, '%')
+            </if>
+            <if test="model != null and model != ''">
+                AND d.model LIKE concat('%', #{model}, '%')
+            </if>
+            <if test="status != null">
+                AND d.status = #{status}
+            </if>
+            <if test="categoryId != null">
+                AND d.categoryId = #{categoryId}
+            </if>
+            <if test="locationId != null">
+                AND d.locationId = #{locationId}
+            </if>
+            AND d.isDelete = 0
+        </where>
+
+        ORDER BY d.createTime
+    </select>
+</mapper>

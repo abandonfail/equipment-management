@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.equipmentmanagementsystem.mapper.MaintenanceOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.equipmentmanagementsystem.pojo.entity.MaintenanceOrder">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="deviceId" column="deviceId" jdbcType="BIGINT"/>
+            <result property="reporterId" column="reporterId" jdbcType="BIGINT"/>
+            <result property="reportTime" column="reportTime" jdbcType="TIMESTAMP"/>
+            <result property="faultDescription" column="faultDescription" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="assigneeId" column="assigneeId" jdbcType="BIGINT"/>
+            <result property="assignTime" column="assignTime" jdbcType="TIMESTAMP"/>
+            <result property="repairStartTime" column="repairStartTime" jdbcType="TIMESTAMP"/>
+            <result property="repairEndTime" column="repairEndTime" jdbcType="TIMESTAMP"/>
+            <result property="repairCost" column="repairCost" jdbcType="DECIMAL"/>
+            <result property="repairResult" column="repairResult" jdbcType="VARCHAR"/>
+            <result property="cancelReason" column="cancelReason" jdbcType="VARCHAR"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,deviceId,reporterId,
+        reportTime,faultDescription,status,
+        assigneeId,assignTime,repairStartTime,
+        repairEndTime,repairCost,repairResult,
+        cancelReason,isDelete,createTime,updateTime
+    </sql>
+    <update id="update">
+        update maintenance_order
+        <set>
+            <if test="deviceId != null">deviceId = #{deviceId},</if>
+            <if test="reporterId != null">reporterId = #{reporterId},</if>
+            <if test="reportTime != null">reportTime = #{reportTime},</if>
+            <if test="faultDescription != null">faultDescription = #{faultDescription},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="assigneeId != null">assigneeId = #{assigneeId},</if>
+            <if test="assignTime != null">assignTime = #{assignTime},</if>
+            <if test="repairStartTime != null">repairStartTime = #{repairStartTime},</if>
+            <if test="repairEndTime != null">repairEndTime = #{repairEndTime},</if>
+            <if test="repairCost != null">repairCost = #{repairCost},</if>
+            <if test="repairResult != null">repairResult = #{repairResult},</if>
+            <if test="cancelReason != null">cancelReason = #{cancelReason},</if>
+            <if test="isDelete != null">isDelete = #{isDelete},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="updateTime != null">updateTime = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="pageQuery" resultType="com.equipmentmanagementsystem.pojo.vo.MaintenanceOrderVO">
+        SELECT
+            mo.id,
+            d.name AS deviceName,
+            u1.userName AS reporterName,
+            mo.reportTime AS reportTime,
+            mo.faultDescription AS faultDescription,
+            mo.status,
+            u2.userName AS assigneeName,
+            mo.assignTime AS assignTime,
+            mo.repairStartTime AS repairStartTime,
+            mo.repairEndTime AS repairEndTime,
+            mo.repairCost AS repairCost,
+            mo.repairResult AS repairResult,
+            mo.cancelReason AS cancelReason,
+            mo.isDelete AS isDelete,
+            mo.createTime AS createTime,
+            mo.updateTime AS updateTime
+        FROM maintenance_order mo
+                 LEFT JOIN device d ON mo.deviceId = d.id
+                 LEFT JOIN user u1 ON mo.reporterId = u1.id
+                 LEFT JOIN user u2 ON mo.assigneeId = u2.id
+        <where>
+            <if test="status != null">
+                and mo.status = #{status}
+            </if>
+            <if test="userId != null">
+                and mo.assigneeId = #{userId}
+            </if>
+            and mo.isDelete = 0
+        </where>
+    </select>
+</mapper>
