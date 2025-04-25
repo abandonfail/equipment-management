@@ -56,16 +56,5 @@ public class UserController {
         return Result.success(user);
     }
 
-    /**
-     * 启用禁用用户账号
-     * @param status
-     * @param id
-     * @return
-     */
-    @PostMapping("/status/{status}")
-    public Result startOrStop(@PathVariable Integer status,Long id){
-        userService.startOrStop(status,id);
-        return Result.success();
-    }
 
 }

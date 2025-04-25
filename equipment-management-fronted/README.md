@@ -2,7 +2,26 @@
 
 一个基于 **Spring Boot + Vue3 + Ant Design Pro** 的设备管理系统，适用于工厂、办公室等场景中的设备登记、管理、维修流程追踪。
 
-![Screenshot](https://sky-take-out-cjc.oss-cn-hangzhou.aliyuncs.com/3fc64877-a767-4a3e-90f1-0c525a1298b5.png)
+## 注：
+
+### equipment-management-fronted  为前端
+
+### equipment-management-system   为后端
+
+### equipment_management.sql   为数据库
+
+### 在后端application.yml文件中
+
+![Screenshot](https://sky-take-out-cjc.oss-cn-hangzhou.aliyuncs.com/146df2d6-c382-4f21-8b15-7d71ab8dc837.png)
+
+**这是数据库配置，需要替换为自己的**
+
+![Screenshot](https://sky-take-out-cjc.oss-cn-hangzhou.aliyuncs.com/64f01baf-17a7-4276-b441-f773ba3d10a8.png)
+
+**这是阿里云OSS配置，也需要替换为自己的**
+
+### 在sql文件中
+**管理员账号为：zhangsan；密码为：chen2005**
 
 ## ✨ 项目亮点
 
@@ -44,6 +63,11 @@
 ![Screenshot](https://sky-take-out-cjc.oss-cn-hangzhou.aliyuncs.com/e4ff6b5a-292b-4d39-9b31-a7cccfb2222e.png)
 
 ## 项目预览
+
+### 主页
+
+![Screenshot](https://sky-take-out-cjc.oss-cn-hangzhou.aliyuncs.com/3fc64877-a767-4a3e-90f1-0c525a1298b5.png)
+
 
 ### 分类管理
 

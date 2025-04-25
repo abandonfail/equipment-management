@@ -35,13 +35,6 @@ public interface UserService extends IService<User> {
     PageResult pageQuery(UserPageQueryDTO userPageQueryDTO);
 
     /**
-     * 启用禁用员工账号
-     * @param status
-     * @param id
-     */
-    void startOrStop(Integer status, Long id);
-
-    /**
      * 根据用户id删除用户
      * @param id
      */

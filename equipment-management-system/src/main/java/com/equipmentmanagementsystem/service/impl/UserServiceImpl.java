@@ -151,20 +151,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     /**
-     * 启用禁用用户账号
-     * @param status
-     * @param id
-     */
-    public void startOrStop(Integer status, Long id) {
-        User user = new User();
-        user.setId(id);
-        user.setUserStatus(status);
-        user.setUpdateTime(new Date());
-
-        userMapper.update(user);
-    }
-
-    /**
      * 根据用户id删除用户
      * @param id
      */
